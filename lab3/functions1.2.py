@@ -4,4 +4,5 @@ def temperature(F):
     C = (5 / 9) * (F - 32)
     return C
 
-#print(temperature(41))
+print(temperature(1/3))
+#5.0
