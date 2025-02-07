@@ -3,4 +3,5 @@
 def reversed(s):
     print(' '.join(s.split()[::-1]))
 
-reversed("We are ready")
+#reversed("We are ready")
+#ready are We
