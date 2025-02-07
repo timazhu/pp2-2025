@@ -1,5 +1,4 @@
-#Write a function that takes a single movie and returns True if its IMDB score is above 5.5
-
+#Write a function that returns a sublist of movies with an IMDB score above 5.5.
 # Dictionary of movies
 
 movies = [
@@ -80,14 +79,6 @@ movies = [
 }
 ]
 
-def imdb_above_5_5(name):
-    for movie in movies:
-        if movie["name"] == name:
-            return movie["imdb"] > 5.5
-    return False
-
-print(imdb_above_5_5("Dark Knight"))
-#True
-
-print(imdb_above_5_5("Exam"))
-#False
+def movies_imdb_above_5_5():
+    return [movie for movie in movies if movie["imdb"] > 5.5]
+print(movies_imdb_above_5_5)
