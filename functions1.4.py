@@ -10,7 +10,7 @@ def filter_prime(numbers):
                 primes.append(num)
     return primes
 
-#numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-#prime_numbers = filter_prime(numbers)
-#print(prime_numbers)
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+prime_numbers = filter_prime(numbers)
+print(prime_numbers)
 #[2, 3, 5, 7, 11, 13]
