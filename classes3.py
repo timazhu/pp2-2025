@@ -18,4 +18,4 @@ class Rectangle(Shape):
         return f"Rectangle with area: {self.area()}"
 
 rectangle = Rectangle(7, 3)
-print(rectangle)
+print(rectangle) #21
