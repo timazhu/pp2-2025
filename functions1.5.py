@@ -11,4 +11,10 @@ def permutations(s, start=0):
         permutations(''.join(s), start + 1)
         s[start], s[i] = s[i], s[start]
 
-permutations("abc")
+#permutations("abc")
+#abc
+#acb
+#bac
+#bca
+#cba
+#cab
