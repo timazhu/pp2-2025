@@ -7,4 +7,6 @@ def solve(numheads, numlegs):
     rabbit = int((numlegs - 2 * numheads) / 2)
     return chicken, rabbit
 
-print (solve(35, 94))
+chicken, rabbit = solve(35, 94)
+print(chicken, rabbit)
+#23 12

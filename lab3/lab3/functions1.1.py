@@ -4,5 +4,4 @@ def mass(grams):
     ounces = 28.3495231 * grams
     return ounces
 
-print(mass(10))
-#283.495231
+#print(mass(10))
