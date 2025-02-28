@@ -1,4 +1,10 @@
-snake_case = input()
-words = snake_case.split('_')
-camel_case = words[0] + ''.join(word.title() for word in words[1:])
-print(camel_case)
+#Write a python program to convert snake case string to camel case string.
+
+import re
+def snake_to_camel(word):
+        return ''.join(x.capitalize() or '_' for x in word.split('_'))
+s = input()
+print(snake_to_camel(s))
+
+#snake_case_string
+#SnakeCaseString
