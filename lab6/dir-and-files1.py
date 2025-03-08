@@ -21,7 +21,9 @@ path = "."
 
 list_directories_files(path)
 
-"""Files:
+'''Directories:
+
+Files:
 built-in-functions1.py
 built-in-functions2.py
 built-in-functions3.py
@@ -35,4 +37,4 @@ built-in-functions2.py
 built-in-functions3.py
 built-in-functions4.py
 built-in-functions5.py
-dir-and-files1.py"""
+dir-and-files1.py'''
