@@ -9,9 +9,9 @@ pygame.display.set_caption("Mickey Clock")
 clock = pygame.time.Clock()
 
 # Load Mickey's image and hands
-mickey_body = pygame.image.load("mickey_body.png")  # Replace with your Mickey body image
-minute_hand = pygame.image.load("minute_hand.png")  # Replace with your minute hand image
-second_hand = pygame.image.load("second_hand.png")  # Replace with your second hand image
+mickey_body = pygame.image.load("mainclock.png")  # Replace with your Mickey body image
+minute_hand = pygame.image.load("rightarm.png")  # Replace with your minute hand image
+second_hand = pygame.image.load("leftarm.png")  # Replace with your second hand image
 
 # Center of the screen
 center = (200, 200)
