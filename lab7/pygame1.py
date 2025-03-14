@@ -3,7 +3,7 @@ import datetime
 
 pygame.init()
 
-screen = pygame.display.set_mode((400, 400))
+screen = pygame.display.set_mode((1400, 1000))
 pygame.display.set_caption("Mickey Clock")
 
 clock = pygame.time.Clock()
@@ -12,7 +12,7 @@ mickey_body = pygame.image.load("mainclock.png")
 minute_hand = pygame.image.load("rightarm.png")
 second_hand = pygame.image.load("leftarm.png")
 
-center = (200, 200)
+center = (700, 500)
 
 def rotate_image(image, angle):
     rotated_image = pygame.transform.rotate(image, angle)
