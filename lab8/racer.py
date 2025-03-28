@@ -29,7 +29,7 @@ wasted=pygame.transform.scale(wasted, (400, 600) )
 
 bg = pygame.image.load("AnimatedStreet.png")
 
-pygame.mixer.music.load('sounds/background.wav')
+pygame.mixer.music.load('background.wav')
 pygame.mixer.music.play(-1)
 
 class Enemy(pygame.sprite.Sprite):
@@ -108,8 +108,8 @@ while True:
     E1.update()
     
 
-    if pygame.sprite.spritecollideany(P1, enemies):#if the plater touches an enemy
-        pygame.mixer.music.load('sounds/crash.wav')
+    if pygame.sprite.spritecollideany(P1, enemies):#if the player touches an enemy
+        pygame.mixer.music.load('crash.wav')
         pygame.mixer.music.play()
 
         SURF.blit(wasted,(0,0))
