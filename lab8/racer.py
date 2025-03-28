@@ -39,7 +39,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
 
-    def update(self):#creates a new enemy while crossing the borders
+    def update(self): #creates a new enemy while crossing the borders
         self.rect.move_ip(0, ENEMTY_STEP)
         if(self.rect.bottom > SCREEN_HEIGHT):
             self.top = 0
