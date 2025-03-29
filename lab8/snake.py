@@ -14,7 +14,7 @@ HEADCOLOR=(170, 10, 180)
 RED = (160, 0, 0)
 RED_W = (54, 13 ,4)
 
-WINDOW_WIDTH, WINDOW_HEIGHT = 500, 500  #Surface
+WINDOW_WIDTH, WINDOW_HEIGHT = 625, 625  #Surface
 BLOCK_SIZE = 25
 
 clock = pygame.time.Clock()
