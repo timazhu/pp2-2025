@@ -18,7 +18,7 @@ WINDOW_WIDTH, WINDOW_HEIGHT = 500, 500  #Surface
 BLOCK_SIZE = 25
 
 clock = pygame.time.Clock()
-FPS = 15
+FPS = 8
 time1 = 60
 
 pygame.mixer.music.load('music.mp3')
