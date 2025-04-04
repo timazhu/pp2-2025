@@ -15,9 +15,9 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 SCORE = 0
 
-# New: Speed increase parameters
-SPEED_INCREASE_INTERVAL = 5  # Increase speed every 5 coins
-SPEED_INCREMENT = 1          # Speed increase amount
+# Speed increase parameters
+SPEED_INCREASE_INTERVAL = 5
+SPEED_INCREMENT = 1
 
 clock = pygame.time.Clock()
 score_font = pygame.font.SysFont("Verdana", 20)
@@ -41,6 +41,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
 
     def update(self):
+        global ENEMTY_STEP
         self.rect.move_ip(0, ENEMTY_STEP)
         if self.rect.bottom > SCREEN_HEIGHT:
             self.top = 0
@@ -71,10 +72,8 @@ class Player(pygame.sprite.Sprite):
 class Coin(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        # New: Random coin type (1=small, 2=medium, 3=large)
         self.type = random.choices([1, 2, 3], weights=[0.6, 0.3, 0.1])[0]
         
-        # Load and scale based on type
         if self.type == 1:
             self.image = pygame.image.load("coin.png")
             self.image = pygame.transform.scale(self.image, (25, 25))
@@ -83,43 +82,49 @@ class Coin(pygame.sprite.Sprite):
             self.image = pygame.image.load("coin.png")
             self.image = pygame.transform.scale(self.image, (35, 35))
             self.value = 3
-        else:  # type 3
+        else:
             self.image = pygame.image.load("coin.png")
             self.image = pygame.transform.scale(self.image, (45, 45))
             self.value = 5
-
+            
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
 
     def update(self):
         self.rect.move_ip(0, 5)
         if self.rect.bottom > SCREEN_HEIGHT:
-            self.top = 0
-            self.rect.center = (random.randint(30, 350), 0)
-    
-    def spawn(self):
-        self.rect.center = (random.randint(30, 350), 0)
-    
+            self.kill()  # Remove coin when it goes off-screen
+
     def draw(self, surface):
         surface.blit(self.image, self.rect)
 
 P1 = Player()
 E1 = Enemy()
-C1 = Coin()
 enemies = pygame.sprite.Group()
 enemies.add(E1)
-coin = pygame.sprite.Group()
-coin.add(C1)
+coins = pygame.sprite.Group()  # Now tracks ALL coins
+
+# Coin spawn timer
+last_coin_spawn = 0
+coin_spawn_interval = 2000  # milliseconds
 
 while True:
+    current_time = pygame.time.get_ticks()
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
 
+    # Spawn new coins periodically
+    if current_time - last_coin_spawn > coin_spawn_interval:
+        new_coin = Coin()
+        coins.add(new_coin)
+        last_coin_spawn = current_time
+
     P1.update()
-    C1.update()
     E1.update()
+    coins.update()  # Update all coins
 
     if pygame.sprite.spritecollideany(P1, enemies):
         pygame.mixer.music.load('crash.wav')
@@ -130,19 +135,17 @@ while True:
         pygame.quit()
         sys.exit()
 
-    # New: Check for coin collision and handle score/speed
-    if pygame.sprite.spritecollideany(P1, coin):
-        SCORE += C1.value  # Add coin's value (1, 3, or 5)
-        
-        # Increase speed every SPEED_INCREASE_INTERVAL coins
+    # Check collisions with all coins
+    collected_coins = pygame.sprite.spritecollide(P1, coins, True)
+    for coin in collected_coins:
+        SCORE += coin.value
         if SCORE % SPEED_INCREASE_INTERVAL == 0:
             ENEMTY_STEP += SPEED_INCREMENT
-        
-        C1.spawn()  # Respawn a new coin
 
     SURF.blit(bg, (0, 0))
     E1.draw(SURF)
-    C1.draw(SURF)
+    for coin in coins:  # Draw all coins
+        coin.draw(SURF)
     P1.draw(SURF)
 
     score_img = score_font.render(str(SCORE), True, BLACK)
