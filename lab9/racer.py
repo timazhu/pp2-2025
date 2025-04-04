@@ -15,9 +15,9 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 SCORE = 0
 
-# Speed increase parameters
+# New: Speed increase parameters
 SPEED_INCREASE_INTERVAL = 5  # Increase speed every 5 coins
-SPEED_INCREMENT = 1  # How much to increase speed by
+SPEED_INCREMENT = 1          # Speed increase amount
 
 clock = pygame.time.Clock()
 score_font = pygame.font.SysFont("Verdana", 20)
@@ -41,7 +41,6 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
 
     def update(self):
-        global ENEMTY_STEP
         self.rect.move_ip(0, ENEMTY_STEP)
         if self.rect.bottom > SCREEN_HEIGHT:
             self.top = 0
@@ -72,22 +71,23 @@ class Player(pygame.sprite.Sprite):
 class Coin(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        # Randomly choose coin type (1 = small, 2 = medium, 3 = big)
+        # New: Random coin type (1=small, 2=medium, 3=large)
         self.type = random.choices([1, 2, 3], weights=[0.6, 0.3, 0.1])[0]
         
+        # Load and scale based on type
         if self.type == 1:
             self.image = pygame.image.load("coin.png")
             self.image = pygame.transform.scale(self.image, (25, 25))
             self.value = 1
         elif self.type == 2:
-            self.image = pygame.image.load("coin.png")  # You can use different image for different coins
+            self.image = pygame.image.load("coin.png")
             self.image = pygame.transform.scale(self.image, (35, 35))
             self.value = 3
         else:  # type 3
             self.image = pygame.image.load("coin.png")
             self.image = pygame.transform.scale(self.image, (45, 45))
             self.value = 5
-            
+
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
 
@@ -108,13 +108,8 @@ E1 = Enemy()
 C1 = Coin()
 enemies = pygame.sprite.Group()
 enemies.add(E1)
-coins = pygame.sprite.Group()
-coins.add(C1)
-
-def increase_speed():
-    global ENEMTY_STEP
-    ENEMTY_STEP += SPEED_INCREMENT
-    print(f"Enemy speed increased to {ENEMTY_STEP}")  # For debugging
+coin = pygame.sprite.Group()
+coin.add(C1)
 
 while True:
     for event in pygame.event.get():
@@ -125,7 +120,7 @@ while True:
     P1.update()
     C1.update()
     E1.update()
-    
+
     if pygame.sprite.spritecollideany(P1, enemies):
         pygame.mixer.music.load('crash.wav')
         pygame.mixer.music.play()
@@ -135,30 +130,22 @@ while True:
         pygame.quit()
         sys.exit()
 
-    # Check for coin collisions
-    coin_collisions = pygame.sprite.spritecollide(P1, coins, True)
-    for coin in coin_collisions:
-        SCORE += coin.value
-        # Check if we've reached a speed increase interval
+    # New: Check for coin collision and handle score/speed
+    if pygame.sprite.spritecollideany(P1, coin):
+        SCORE += C1.value  # Add coin's value (1, 3, or 5)
+        
+        # Increase speed every SPEED_INCREASE_INTERVAL coins
         if SCORE % SPEED_INCREASE_INTERVAL == 0:
-            increase_speed()
-        # Create a new coin
-        new_coin = Coin()
-        coins.add(new_coin)
-    
-    # Ensure there's always at least one coin on screen
-    if len(coins) == 0:
-        new_coin = Coin()
-        coins.add(new_coin)
+            ENEMTY_STEP += SPEED_INCREMENT
+        
+        C1.spawn()  # Respawn a new coin
 
     SURF.blit(bg, (0, 0))
-    
     E1.draw(SURF)
-    for coin in coins:
-        coin.draw(SURF)
+    C1.draw(SURF)
     P1.draw(SURF)
 
-    score_img = score_font.render(f"Score: {SCORE}", True, BLACK)
+    score_img = score_font.render(str(SCORE), True, BLACK)
     SURF.blit(score_img, (10, 10))
 
     pygame.display.update()
